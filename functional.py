@@ -114,6 +114,7 @@ def analyze(dir=os.getcwd()):
     в каждой вложенной папке я решил вставить функцию в функцию.
     """
     total_size = 0
+    result = list()
     print(f'Analyzing: {dir}')
     if os.path.exists(dir):
         def dir_analyze(dir):
@@ -132,15 +133,17 @@ def analyze(dir=os.getcwd()):
             full_path = os.path.join(dir, item)
             if os.path.isfile(full_path):
                 file_size = os.path.getsize(full_path)
+                result.append(f"-File {item} - {file_size}b")
                 print(f"-File {item} - {file_size}b")
                 total_size += file_size
 
             elif os.path.isdir(full_path):
                 dir_size = dir_analyze(full_path)
+                result.append(f'-Dir {full_path} - {dir_size}b')
                 print(f'-Dir {full_path} - {dir_size}b')
                 total_size += dir_size
 
         print(f"Total size of directory: {dir} - {total_size}b")
-        return total_size
+        return result
     else:
         raise NotADirectoryError('There is no such directory!')
